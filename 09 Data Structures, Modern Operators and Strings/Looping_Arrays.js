@@ -19,11 +19,11 @@ const restaurant = {
             close: 24,
         },
     },
-    order: function (staterIndex, MainIndex) {
+    order(staterIndex, MainIndex) {
         return [this.staterMenu[staterIndex], this.mainMenu[MainIndex]];
     },
 
-    orderDelivery: function ({ starterIndex = 2,
+    orderDelivery({ starterIndex = 2,
         MainIndex = 1,
         time = 'in 20 min',
         Place }) {
@@ -42,19 +42,49 @@ const restaurant = {
     }
 };
 
-const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
 
-for (const item of menu)
-    console.log(item);
-
-
-//........eteries..... 
-for (const item of menu.entries()) {
-    console.log(item);
-}
-
-//combining destructuring and entries.......
-for (const [i, el] of menu.entries()) {
-    console.log(`${i + 1} : ${el}`);
-}
 //console.log(menu.entries());
+
+
+
+// KEYWORD: -----Key-----
+
+for (const day of Object.keys(restaurant.openingHours)) {
+    console.log(day);
+}
+
+const properties = Object.keys(restaurant.openingHours);
+console.log(properties);
+
+let openstr = `we are open on ${properties.length} days: `;
+for (const day of properties) {
+    openstr += `${day} ,`;
+}
+console.log(openstr);
+
+const value = Object.values(restaurant.openingHours);
+console.log(value);
+
+const entries = Object.entries(restaurant.openingHours);
+console.log(entries);
+
+for (const [key, { open, close }] of entries) {
+    console.log(`on ${key} we are open at ${open} and close at ${close}`);
+}
+
+//------ DATA STRUCTURE:  "Set"----------------
+
+const staff = new Set([
+    'Waiter',
+    'Manager',
+    'Owner',
+    'Waiter',
+    'Manager',
+    'Cook'
+]);
+
+console.log(staff);
+staff.add('customer')
+console.log(staff);
+
+//------ DATA STRUCTURE:  "Map"----------------

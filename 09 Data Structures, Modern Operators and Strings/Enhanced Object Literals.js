@@ -49,10 +49,24 @@ const restaurant = {
     }
 };
 
-if (restaurant.openinghrs.mon) {
-    console.log(restaurant.openinghrs.mon.open);
-};
 
-if (restaurant.openinghrs.fri) {
-    console.log(restaurant.openinghrs.fri.open);
-};
+//in ES6 optional channing 
+console.log(restaurant.openinghrs.mon?.open);
+// if its empty then it will return undefine.
+
+
+const days = ['mon', 'tue', 'wed', 'thus', 'fri', 'sat', 'sun'];
+
+for (const day of days) {
+    const open = restaurant.openinghrs[day]?.open ?? 'close';
+    console.log(`open on ${day} at ${open}`);
+}
+
+// if (restaurant.openinghrs.mon) {
+//     console.log(restaurant.openinghrs.mon.open);
+// };
+
+// if (restaurant.openinghrs.fri) {
+//     console.log(restaurant.openinghrs.fri.open);
+// };
+
