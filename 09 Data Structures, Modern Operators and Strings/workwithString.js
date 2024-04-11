@@ -1,68 +1,64 @@
-const weekdays = ['mon', 'tue', 'wed', 'thus', 'fri', 'sat', 'sun'];
 
-const openinghrs = {
-    [weekdays[1]]: {
-        open: 12,
-        close: 22,
-    },
-    [weekdays[4]]: {
-        open: 11,
-        close: 23,
-    },
-    [weekdays[6]]: {
-        open: 0, // Open 24 hours
-        close: 24,
-    },
-};
+// const airline = 'TAP Air Portugal';
+// const plane = 'A320';
 
-const restaurant = {
-    name: 'Classico Italiano',
-    location: 'Via Angelo Tavanti 23, Firenze, Italy',
-    categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
-    starterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
-    mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+// console.log(plane[0]);
+// console.log(plane[1]);
+// console.log(plane[2]);
+// console.log(plane[3]);
 
-    //ES6 enhance property
-    openinghrs,
+// console.log('B345'[0]);
 
-    order(staterIndex, MainIndex) {
-        return [this.staterMenu[staterIndex], this.mainMenu[MainIndex]];
-    },
+// console.log('23wsd'.length);
+// console.log(airline.indexOf('r'));
+// console.log(airline.lastIndexOf('portugal'));
 
-    orderDelivery({ starterIndex = 2,
-        MainIndex = 1,
-        time = 'in 20 min',
-        Place }) {
-        console.log(
-            `Order Received ${this.starterMenu[starterIndex]} and
-             ${this.mainMenu[MainIndex]} will be delivered to
-              ${Place} at ${time}`
-        );
-    },
+// console.log(airline.slice(4));
+// console.log(airline.slice(4, 7));
 
-    orderPasta(ing1, ing2, ing3) {
-        console.log(`Here's the pasta with ${ing1}, ${ing2}, ${ing3}`);
-    },
-    orderPizza(mainIngrediant, ...otherIngreduad) {
-        console.log(mainIngrediant, otherIngreduad);
-    }
-};
+// console.log(airline.slice(-2));
 
-const airline = 'TAP Air Portugal';
-const plane = 'A320';
+// const checkmiddleseat = function (seat) {
+//     const s = seat.slice(-1);
+//     if (s === 'B' || s === 'E') {
+//         console.log(`u got middle sear`)
+//     }
+// }
 
-console.log(plane[0]);
-console.log(plane[1]);
-console.log(plane[2]);
-console.log(plane[3]);
+// checkmiddleseat('11B');
+// checkmiddleseat('34E');
 
-console.log('B345'[0]);
+// console.log(airline.toLowerCase());
+// console.log(airline.toUpperCase());
+// const sent = 'the emergency doors are in middle front and end';
+// console.log(sent.replace(/door/g, 'gate')); // Output: 'the emergency gates are in middle front and end'
 
-console.log('23wsd'.length);
-console.log(airline.indexOf('r'));
-console.log(airline.lastIndexOf('portugal'));
+// console.log(sent.includes('door')); // Output: true
+// console.log(sent.startsWith('door')); // Output: false
 
-console.log(airline.slice(4));
-console.log(airline.slice(4, 7));
 
-console.log(airline.slice(-2));
+// const loginemail = '    aliza@gmail.com  \n';
+// const checkemail = loginemail.toLowerCase().trim();
+// console.log(checkemail);
+
+// console.log('a+very+nice+string'.split('+'));
+// console.log('Johnas Schmedtmann'.split(' '));
+
+// const [firstName, lastName] = 'Johnas Schmedtmann'.split(' ');
+
+// const text = "pio";
+// console.log(text.padStart(14, "x"));
+// console.log(text.padEnd(14, "x"));
+const getcode = str => str.slice(0, 3).toUpperCase();
+
+
+const flights =
+    '_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30';
+
+// console.log(flights.split('+'));
+for (const flight of flights.split('+')) {
+    const [type, from, to, time] = flight.split(';');
+    // console.log(type, from, to, time);
+    const output = `${type.startsWith('_Delayed') ? '🔴' : ''} ${type.replaceAll('_', ' ')} from ${getcode(from)} to ${getcode(to)} ${time.replaceAll(':', 'h')}`.padStart(48);
+    console.log(output);
+}
