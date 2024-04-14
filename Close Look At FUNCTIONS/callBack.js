@@ -115,9 +115,37 @@ const bookSw = book.bind(swissAirline);
 bookew(23, 'aliza razi');
 
 const bookEW23 = book.bind(eurowings, 23); // is flight_no is pree set here... now it only need name
-// new we have to only pass passanger name
+// new we have to only pass passanger name 
+// this is called partial application.
 bookEW23('aliza');
 bookEW23('aksn');
-bookEW23('asasa');
+
+// with event listener
+lufthansa.planes = 300;
+lufthansa.buyPlan = function () {
+    // console.log(this);
+    this.planes++;
+    console.log(this.planes);
+};
+document.querySelector('.buy').addEventListener('click', lufthansa.buyPlan.bind(lufthansa));
+// this key word is dynamic
 
 
+const addTAx = (rate, value) => value + value * rate;
+console.log(addTAx(0.1, 200));
+
+const addVat = addTAx.bind(null, 0.3);// rate is fix at 0.3
+
+console.log(addVat(22));
+
+//---------challenge------------
+
+const addTaxRate = (rate) => {
+    return function (value) {
+        return value + value * rate;
+    }
+};
+const addVatat = addTaxRate(0.23);
+console.log(addVatat(23));
+console.log(addVatat(2300));
+console.log(addVatat(55));
