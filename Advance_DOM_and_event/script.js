@@ -2,6 +2,13 @@ const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+const nav = document.querySelector('.nav');
+
 
 const openModal = function (e) {
     e.preventDefault();
@@ -28,8 +35,6 @@ document.addEventListener('keydown', function (e) {
     }
 });
 
-const btnScrollTo = document.querySelector('.btn--scroll-to');
-const section1 = document.querySelector('#section--1');
 
 
 btnScrollTo.addEventListener('click', function (e) {
@@ -78,11 +83,11 @@ document.querySelector('.nav__link').addEventListener('click', function (e) {
     }
 });
 
+/////////////////////
+
+
 
 //TABBED COMPONENT
-const tabs = document.querySelectorAll('.operations__tab');
-const tabsContainer = document.querySelector('.operations__tab-container');
-const tabsContent = document.querySelectorAll('.operations__content');
 
 tabsContainer.addEventListener('click', function (e) {
     const clicked = e.target.closest('.operations__tab');
@@ -104,10 +109,86 @@ tabsContainer.addEventListener('click', function (e) {
         .classList.add('operations__content--active');
 });
 
+//Meanu fade anmation
+const handleHover = function (e) {
+    if (e.target.classList.contains('nav__link')) {
+        const link = e.target;
+        const siblings = link.closest('.nav').querySelectorAll('.nav__link');
+        const logo = link.closest('.nav')
+            .querySelector('img');
 
+        // console.log(link, siblings, logo);
+
+        siblings.forEach(el => {
+            if (el !== link) el.style.opacity = this;
+        });
+        logo.style.opacity = this;
+    }
+}
+
+//ppassing argument into handler.
+
+//scroll type alwasy fire when eve we r scrolling specially when using website on mobile
+
+// nav.addEventListener('mouseover', handleHover.bind(0.5));
+// nav.addEventListener('mouseout', handleHover.bind(1));
+
+
+// // Sticky Navigation-----------------
+// const intialCoords = section1.getBoundingClientRect();
+// window.addEventListener('scroll', function (e) {
+//     console.log(window.scrollY); //current scroll position.....
+
+//     //make it sticky navigationn.......
+//     if (window.scrollY > intialCoords.top) nav.classList.add('sticky')
+//     else nav.classList.remove('sticky');
+// });
+
+// sticky navigation:  intersection observe API
+// const obsCallBack =
+//     function (entries/**array of threshold entries. */, observer) {
+//         entries.forEach(entry => {
+//             console.log(entry);
+//         })
+//     };
+// const obsOptions = {
+//     //root property:
+//     root: null,
+//     threshold: [0, 1, 0.2],//percentage Of intersection which observer call back will be called
+// };
+// const observer = new IntersectionObserver(obsCallBack, obsOptions);
+// observer.observe(section1);
+
+const header = document.querySelector('.header');
+const navHeight = nav.getBoundingClientRect().height;
+console.log(navHeight);
+
+const stickyNav = function (entries) {
+    const [entry] = entries;
+    // console.log(entry);
+    if (!entry.
+        isIntersecting) nav.classList.add('sticky');
+    else nav.classList.remove('sticky');
+}
+const headerObserver = new IntersectionObserver(stickyNav, {
+    root: null,
+    threshold: 0,
+    rootMargin: `-${navHeight}px`,
+});
+headerObserver.observe(header);
+
+/** ----------CONSOLE LOG------------ */
+// nav.classList
+// DOMTokenList['nav', value: 'nav']
+// script.js: 165 IntersectionObserverEntry { time: 173330.5, rootBounds: DOMRectReadOnly, boundingClientRect: DOMRectReadOnly, intersectionRect: DOMRectReadOnly, isIntersecting: false, … }
+// nav.classList
+// DOMTokenList(2)['nav', 'sticky', value: 'nav sticky']
+// script.js: 165 IntersectionObserverEntry { time: 181797.3999999985, rootBounds: DOMRectReadOnly, boundingClientRect: DOMRectReadOnly, intersectionRect: DOMRectReadOnly, isIntersecting: true, … }
+// nav.classList
+// DOMTokenList['nav', value: 'nav']
 
 // /**
-//  * 
+//  * ///////////////////////////////////////////////////////////////////////////////////////////////////////
 //  * ----------------------STUDY MATERIAL----------------------
 //  * 
 //  * 
