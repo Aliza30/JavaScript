@@ -77,6 +77,35 @@ document.querySelector('.nav__link').addEventListener('click', function (e) {
             .scrollIntoView({ behavior: 'smooth' });
     }
 });
+
+
+//TABBED COMPONENT
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+
+tabsContainer.addEventListener('click', function (e) {
+    const clicked = e.target.closest('.operations__tab');
+    // console.log(clicked);
+
+    // Guard clause
+    if (!clicked) return;
+
+    // Remove active classes
+    tabs.forEach(t => t.classList.remove('operations__tab--active'));
+    tabsContent.forEach(c => c.classList.remove('operations__tab--active'));
+
+    // Activate tab
+    clicked.classList.add('operations__tab--active');
+    // console.log(clicked.dataset.tab);
+
+    document
+        .querySelector(`.operations__content--${clicked.dataset.tab}`)
+        .classList.add('operations__content--active');
+});
+
+
+
 // /**
 //  * 
 //  * ----------------------STUDY MATERIAL----------------------
@@ -226,3 +255,24 @@ setTimeout(() =>
 //     },
 //         true,// capturing.... only for historical reasons
 //     );
+
+// const h1 = document.querySelector('h1');
+
+//---------Going downward: child----->
+// console.log(h1.querySelectorAll('.highlight'));
+// console.log(h1.children);
+// console.log(h1.childNodes);
+// h1.firstElementChild.style.color = 'white';
+// h1.lastElementChild.style.color = 'green';
+
+/**-----Going Upwards------ */
+// console.log(h1.parentNode);
+// console.log(h1.parentElement);
+
+// // h1.closest('.header').style.background = 'var(--gradient-primary)';
+// // h1.closest('h1').style.background = 'var(--gradient-primary)';
+
+// console.log(h1.previousElementSibling);
+// console.log(h1.nextSibling);
+
+
