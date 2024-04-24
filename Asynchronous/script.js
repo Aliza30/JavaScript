@@ -173,7 +173,7 @@ const getCountryData = function (country) {
 };
 
 // btn.addEventListener('click', () => {
-//   getCountryData('australia');
+//   getCountryData('india');
 // });
 
 
@@ -206,27 +206,6 @@ GOOD LUCK 😀
 //fetch(`https://geocode.xyz/${lng},${lat}?geoit=json`)
 // return fetch(`https://restcountries.com/v3.1/name/${data.country}`)
 
-const whereAmI = function (lat, lng) {
-  fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`)
-    .then(res => {
-      if (!res.ok) throw new Error(`Problem with geocoding ${res.status}`);
-      return res.json();
-    })
-    .then(data => {
-      console.log(data);
-      console.log(`You are in ${data.city}, ${data.country}`);
-
-      return fetch(`https://restcountries.eu/rest/v2/name/${data.country}`);
-    })
-    .then(res => {
-      if (!res.ok) throw new Error(`Country not found (${res.status})`);
-
-      return res.json();
-    })
-    .then(data => renderCountry(data[0]))
-    .catch(err => console.error(`${err.message} 💥`));
-};
-
 
 // whereAmI(52.508, 13.381);
 // whereAmI(19.037, 72.873);
@@ -246,34 +225,233 @@ const whereAmI = function (lat, lng) {
 // console.log(`Test end`);
 
 
-const lotteryPromise = new Promise(function (resolve, reject) {
-  console.log(`Lotty draw is happening`) //Micro task....
-  setTimeout(() => {
-    if (Math.random() >= 0.5) {
-      resolve('You won the lottery!');
-    } else {
-      reject(new Error('You lost the lottery'));
-    }
-  }, 2000);
-})// executer funtion 
-lotteryPromise
-  .then(res => console.log(res))
-  .catch(err => console.error(err));
+// const lotteryPromise = new Promise(function (resolve, reject) {
+//   console.log(`Lotty draw is happening`) //Micro task....
+//   setTimeout(() => {
+//     if (Math.random() >= 0.5) {
+//       resolve('You won the lottery!');
+//     } else {
+//       reject(new Error('You lost the lottery'));
+//     }
+//   }, 2000);
+// })// executer funtion 
+// lotteryPromise
+//   .then(res => console.log(res))
+//   .catch(err => console.error(err));
 
-//promisifiyinf SetTimeOut
+// //promisifiyinf SetTimeOut
+// const wait = function (seconds) {
+//   return new Promise(function (resolve) {
+//     setTimeout(resolve, seconds * 1000);
+//   });
+// };
+
+
+// wait(2).then(() => {
+//   console.log(`I waited for 2 seconds`);
+//   return wait(1);
+// }).then(() => console.log(`I waited for 1 secoud`))
+
+
+// Promise.resolve('abc').then(x => console.log(x));
+// Promise.reject('abc').then(x => console.log(x));
+
+
+
+//-------------------Geo location using langitude and longitude-------
+// console.log(`getting geolocation`);
+// const getPosition = function () {
+//   return new Promise(function (resolve, reject) {
+//     // navigator.geolocation.getCurrentPosition(
+//     //   position => resolve(position),
+//     //   err => reject(err)
+//     // ); // callback-based API
+//     navigator.geolocation.getCurrentPosition(resolve, reject);
+//   });
+// };
+
+// getPosition().then(pos => console.log(pos));
+
+// const whereAmI = function (lat, lng) {
+
+//   getPosition().then(pos => {
+//     const { latitude: lat, longitude: lng } = pos.coords;
+
+//     return fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`)
+//   })
+//     .then(res => {
+//       if (!res.ok) throw new Error(`Problem with geocoding ${res.status}`);
+//       return res.json();
+//     })
+//     .then(data => {
+//       console.log(data);
+//       console.log(`You are in ${data.city}, ${data.country}`);
+
+//       return fetch(`https://restcountries.eu/rest/v2/name/${data.country}`);
+//     })
+//     .then(res => {
+//       if (!res.ok) throw new Error(`Country not found (${res.status})`);
+
+//       return res.json();
+//     })
+//     .then(data => renderCountry(data[0]))
+//     .catch(err => console.error(`${err.message} 💥`));
+// };
+// whereAmI(19.037, 72.873);
+
+// btn.addEventListener('click', whereAmI)
+
+// getPosition().then(pos => console.log(pos));
+
+///////////////////////////////////////
+// Coding Challenge #2
+
+/* 
+Build the image loading functionality that I just showed you on the screen.
+
+Tasks are not super-descriptive this time, so that you can figure out some stuff on your own. Pretend you're working on your own 😉
+
+PART 1
+1. Create a function 'createImage' which receives imgPath as an input. This function returns a promise which creates a new image (use document.createElement('img')) and sets the .src attribute to the provided image path. When the image is done loading, append it to the DOM element with the 'images' class, and resolve the promise. The fulfilled value should be the image element itself. In case there is an error loading the image ('error' event), reject the promise.
+
+If this part is too tricky for you, just watch the first part of the solution.
+
+PART 2
+2. Comsume the promise using .then and also add an error handler;
+3. After the image has loaded, pause execution for 2 seconds using the wait function we created earlier;
+4. After the 2 seconds have passed, hide the current image (set display to 'none'), and load a second image (HINT: Use the image element returned by the createImage promise to hide the current image. You will need a global variable for that 😉);
+5. After the second image has loaded, pause execution for 2 seconds again;
+6. After the 2 seconds have passed, hide the current image.
+
+TEST DATA: Images in the img folder. Test the error handler by passing a wrong image path. Set the network speed to 'Fast 3G' in the dev tools Network tab, otherwise images load too fast.
+
+GOOD LUCK 😀
+*/
+
+
 const wait = function (seconds) {
   return new Promise(function (resolve) {
     setTimeout(resolve, seconds * 1000);
   });
 };
 
+const imgCont = document.querySelector('.images');
 
-wait(2).then(() => {
-  console.log(`I waited for 2 seconds`);
-  return wait(1);
-}).then(() => console.log(`I waited for 1 secoud`))
+const createImage = (imagePath) => {
+  return new Promise(function (resolve, reject) {
+    const img = document.createElement('img');
+    img.src = imagePath;
+    img.addEventListener('load', () => {
+      imgCont.append(img);
+      resolve(img);
+    })
+    img.addEventListener('error', function () {
+      reject(new Error('Image not found'))
+    });
+  });
+};
+//global variable
+// let currentImg;
+// createImage('img/img-1.jpg')
+//   .then(img => {
+//     currentImg = img;
+//     console.log('image 1');
+//     return wait(2);
+//   })
+//   .then(() => {
+//     currentImg.style.display = 'none'
+//     return createImage('img/img-2.jpg')
+//   })
+//   .then(img => {
+//     currentImg = img;
+//     console.log('image 2 after 2 sec');
+//     return wait(2);
+//   }).then(() => {
+//     currentImg.style.display = 'none'
+//     return createImage('img/img-3.jpg')
+//   })
+//   .then(img => {
+//     currentImg = img;
+//     console.log('image 3 after 2 sec');
+//     return wait(2);
+//   }).then(() => {
+//     currentImg.style.display = 'none'
+//   })
+//   .catch(err => console.log('error image not find'))
+
+//consuming promises with sync/await......
+
+//special kind of function
+
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    // navigator.geolocation.getCurrentPosition(
+    //   position => resolve(position),
+    //   err => reject(err)
+    // ); // callback-based API
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
 
 
-Promise.resolve('abc').then(x => console.log(x));
-Promise.reject('abc').then(x => console.log(x));
 
+const whereAmI = async function (country) {
+
+  try {  //geolocation 
+    const pos = await getPosition();
+    const { latitude: lat, longitude: lng } = pos.coords;
+
+    //reverse geolocation---->
+    const resgeo = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
+
+    if (!resgeo.ok) throw new Error('new error');
+
+    const dataGeo = await resgeo.json();
+    //country data---->
+    const res = await fetch(`https://restcountries.com/v3.1/name/${dataGeo.country}`)
+    if (!resgeo.ok) throw new Error('Problem getting country...');
+
+    const data = await res.json();
+
+    renderCountry(data[0]);
+    return `You are in ${dataGeo.city}, ${dataGeo.country}`
+
+    //Reject Promise return from async funtion....
+    throw err;
+
+  }
+  catch (err) {
+    console.log(err);
+    renderCountry(`somthing went wrong ${err.message}`);
+  }
+}
+console.log(`1 : will get location`);
+// const city = whereAmI();
+// console.log(city);
+
+// whereAmI()
+//   .then(city => console.log(`2: ${city}`))
+//   .catch(err => console.error(`2:${err.message}`))
+//   .finally(() => console.log('3: Finish getting location'));
+
+
+(async function () {
+  try {
+    const city = await whereAmI();
+    console.log(`2: ${city}`);
+  }
+  catch (err) {
+    console.error(`2:${err.message}`)
+  }
+  console.log('3: Finish getting location')
+})();
+
+//inside async funtion we can have one or more await funtion...
+
+// try {
+//   let y = 1;
+//   const x = 2;
+//   y = 3;
+// } catch (err) {
+//   alert(err.message);
+// }// script no longer die 
